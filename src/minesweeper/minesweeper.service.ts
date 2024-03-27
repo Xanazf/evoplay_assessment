@@ -59,8 +59,10 @@ export class MinesweeperService {
   }
 
   private multiplierFormula(bet: number): number {
-    const total_multiplier =
-      bet * (this.size_multiplier + this.mine_multiplier) * 0.99;
+    const true_size = this.size * this.size;
+    const winning_probability = (true_size - this.mines) / true_size; // reverse of the mine_multiplier
+
+    const total_multiplier = (bet / winning_probability) * 0.99; // house edge * (bet/winning_probability) || house edge * (bet*mine_multiplier)?
     return total_multiplier;
   }
 
@@ -143,8 +145,7 @@ export class MinesweeperService {
           return row.filter((cell) => cell.isRevealed);
         })
         .flat();
-      this.mine_multiplier =
-        (this.mines / (true_size - revealed.length)) * 100 * 0.01;
+      this.mine_multiplier = this.mines / (true_size - revealed.length);
     }
     this.gameStateService.saveGameState({
       board: this.board,

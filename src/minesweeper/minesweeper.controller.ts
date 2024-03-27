@@ -4,7 +4,7 @@ import { Cell } from './minesweeper.types';
 
 const MinesweeperConfig = (size: number, mines: number) => {
   let size_mult: number;
-  const mines_mult: number = (mines / size) * 100 * 0.01;
+  const mines_mult: number = mines / size;
 
   switch (size) {
     case 5:
