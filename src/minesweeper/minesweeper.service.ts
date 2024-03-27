@@ -63,7 +63,7 @@ export class MinesweeperService {
     // const winning_probability = (true_size - this.mines) / true_size; // reverse of the mine_multiplier, doesn't recalculate empty cells
 
     const total_multiplier =
-      bet * this.mine_multiplier * 10 * this.size_multiplier; // (bet/winning_probability) * house edge || (bet*mine_multiplier*10) * house edge
+      (bet / (1 - this.mine_multiplier)) * this.size_multiplier; // (bet/winning_probability) * house edge || (bet/ (1-mine_multiplier)) * house edge
     return total_multiplier;
   }
 
