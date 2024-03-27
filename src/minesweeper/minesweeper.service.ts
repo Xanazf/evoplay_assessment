@@ -10,8 +10,8 @@ export class MinesweeperService {
   private mines: number;
   private multiplier: number;
   private gameOver: boolean;
-  private size_multiplier: number;
-  private mine_multiplier: number;
+  private size_multiplier: number; // house edge
+  private mine_multiplier: number; // losing probability
 
   constructor(private readonly gameStateService: GameStateService) {
     // default game state
@@ -59,10 +59,11 @@ export class MinesweeperService {
   }
 
   private multiplierFormula(bet: number): number {
-    const true_size = this.size * this.size;
-    const winning_probability = (true_size - this.mines) / true_size; // reverse of the mine_multiplier
+    // const true_size = this.size * this.size;
+    // const winning_probability = (true_size - this.mines) / true_size; // reverse of the mine_multiplier, doesn't recalculate empty cells
 
-    const total_multiplier = (bet / winning_probability) * 0.99; // house edge * (bet/winning_probability) || house edge * (bet*mine_multiplier)?
+    const total_multiplier =
+      bet * this.mine_multiplier * 10 * this.size_multiplier; // (bet/winning_probability) * house edge || (bet*mine_multiplier*10) * house edge
     return total_multiplier;
   }
 
