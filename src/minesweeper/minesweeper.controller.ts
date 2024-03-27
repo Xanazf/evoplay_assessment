@@ -8,13 +8,13 @@ const MinesweeperConfig = (size: number, mines: number) => {
 
   switch (size) {
     case 5:
-      size_mult = 0.95;
+      size_mult = 0.9;
       break;
     case 7:
-      size_mult = 0.97;
+      size_mult = 0.92;
       break;
     case 8:
-      size_mult = 0.98;
+      size_mult = 0.93;
       break;
 
     default:

@@ -60,8 +60,7 @@ export class MinesweeperService {
 
   private multiplierFormula(bet: number): number {
     const total_multiplier =
-      bet *
-      (this.size * this.size_multiplier + this.mines * this.mine_multiplier);
+      bet * (this.size_multiplier + this.mine_multiplier) * 0.99;
     return total_multiplier;
   }
 
@@ -137,6 +136,15 @@ export class MinesweeperService {
       }
       cell.multiplier = this.multiplierFormula(bet);
       this.multiplier += cell.multiplier;
+      const true_size = this.size * this.size;
+      const revealed = this.gameStateService
+        .loadGameState()
+        .board.map((row) => {
+          return row.filter((cell) => cell.isRevealed);
+        })
+        .flat();
+      this.mine_multiplier =
+        (this.mines / (true_size - revealed.length)) * 100 * 0.01;
     }
     this.gameStateService.saveGameState({
       board: this.board,
